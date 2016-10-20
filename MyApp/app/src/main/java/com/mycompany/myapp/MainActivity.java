@@ -61,9 +61,10 @@ public class MainActivity extends Activity
 
 
 			if (nome.equals("com.kgame.kdyg.uc")){
-				installed.setText("Pokemon Remake is installed - ");
-		        File from = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/Chinese.rc2");
+				installed.setText("Pokemon Remake is installed");
+		               //File from = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/Chinese.rc2");
 				File dir = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2");
+				File dyDir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/com.kgame.kdyg.uc/files/Xml/RC2");
 				File lista[] = dir.listFiles();
 				
 				for(int i=0; i<lista.length; i++){
@@ -76,16 +77,23 @@ public class MainActivity extends Activity
 				listView1.setAdapter(adapter);
 				
 			    
-				if (from.exists()){
-					File to = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/Chinese.rc2.bkp");
-					from.renameTo(to);
+				if (dir.isDirectory()){
+					//File to = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/Chinese.rc2.bkp");
+					//from.renameTo(to);
 					builder.setMessage("Arquivo encontrado.");
 					alerta = builder.create();
 					alerta.show();
 				}else{
-					builder.setMessage("Arquivo não encontrado.");
+				  if(dyDir.isDirectory()){
+					builder.setMessage("Arquivo encontrado2.");
 					alerta = builder.create();
 					alerta.show();
+					}
+			          else{
+					builder.setMessage("Arquivo não encontrado.");
+					alerta = builder.create();
+					alerta.show();				  
+				  }
 				}
 			}
 		}
@@ -121,5 +129,38 @@ public class MainActivity extends Activity
 			e.printStackTrace();
 		}
 
-	}    
+	}
+	
+	public String fazBackup(String localPath,List<String> arquivos){
+	 File file;
+	 File fileBkp;
+	  for(String a : arquivos){
+	   file = new File(localPath+a);
+	   fileBkp = new File(localPath+a+".bkp");
+	   if(file.exist()){
+	    file.renameTo(fileBkp);
+	     return "OK";
+	   }
+	   else if(fileBkp.exist()){
+	    return "OK";
+	   }
+	   else{
+	    return "Arquivos não encontrados, não foi possivel fazer o backup dos aquivos.";
+	  }
+	}
+	public String restauraBackup(String localPath,List<String> arquivos){
+	 File file;
+	 File fileBkp;
+	  for(String a : arquivos){
+	   file = new File(localPath+a);
+	   fileBkp = new File(localPath+a+".bkp");
+	   if(fileBkp.exist()){
+	    fileBkp.renameTo(file);
+	     return "OK";
+	   }
+	   else{
+	    return "Arquivos não encontrados, não foi possivel restaurar o backup dos aquivos.";
+	  }	
+	}
+	
 }
