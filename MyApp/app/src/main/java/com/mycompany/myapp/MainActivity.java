@@ -65,16 +65,16 @@ public class MainActivity extends Activity
 		               //File from = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/Chinese.rc2");
 				File dir = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2");
 				File dyDir = new File(Environment.getExternalStorageDirectory().getPath()+"/Android/data/com.kgame.kdyg.uc/files/Xml/RC2");
-				File lista[] = dir.listFiles();
+				//File lista[] = dir.listFiles();
 				
-				for(int i=0; i<lista.length; i++){
+				/*for(int i=0; i<lista.length; i++){
 					diretorios.add(lista[i].getName());
 				}
 				
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, diretorios);
 				
 				
-				listView1.setAdapter(adapter);
+				listView1.setAdapter(adapter);**/
 				
 			    
 				if (dir.isDirectory()){
