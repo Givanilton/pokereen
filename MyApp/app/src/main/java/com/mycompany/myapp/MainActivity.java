@@ -19,7 +19,12 @@ public class MainActivity extends Activity
 	private AlertDialog alerta;
 	private TextView    installed;
 	boolean l;
-	ListView listView1; 
+	ListView listView1;
+	List<String> urls = new ArrayList<>();
+	String url1 = new String("https://github.com/Givanilton/pokereen/blob/master/RC2/Chinese.rc2?raw=true");
+	String url2 = new String("https://github.com/Givanilton/pokereen/blob/master/RC2/items.pb?raw=true");
+	String url3 = new String("https://github.com/Givanilton/pokereen/blob/master/RC2/pets.pb?raw=true");
+	String url4 = new String("https://github.com/Givanilton/pokereen/blob/master/RC2/skill.pb?raw=true");
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,6 +34,11 @@ public class MainActivity extends Activity
 		
 		installed = (TextView)findViewById(R.id.installed);
 		listView1 = (ListView) findViewById(R.id.listView1);
+		
+		urls.add(url1);
+		urls.add(url2);
+		urls.add(url3);
+		urls.add(url4);
 		
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -65,10 +75,6 @@ public class MainActivity extends Activity
 				
 				listView1.setAdapter(adapter);
 				
-				//try{
-				//FileOutputStream fileOut = new FileOutputStream("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/Chinese2.rc2");
-				
-				//}catch (FileNotFoundException e){}
 			    
 				if (from.exists()){
 					File to = new File("/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/Chinese.rc2.bkp");
@@ -84,4 +90,36 @@ public class MainActivity extends Activity
 			}
 		}
     }
+    
+	public static void gravaArquivoURL(String urls) {
+		try {
+			URL url = new URL(urls);
+			String pathLocal = "/storage/emulated/0/Android/data/com.kgame.kdyg.uc/files/Xml/RC2/";
+			String nomeArquivoLocal = url.getPath().substring(url.getPath().lastIndexOf("/"));
+
+			File de = new File(pathLocal+nomeArquivoLocal);
+			File para = new File(pathLocal+nomeArquivoLocal+".bkp");
+			
+			if(!para.exists()){
+				de.renameTo(para);
+			}
+			
+			InputStream is = url.openStream();
+
+			FileOutputStream fos = new FileOutputStream(pathLocal+nomeArquivoLocal);
+			
+            int i = 0;
+            byte[] bytesIn = new byte[1024];
+            while ((i = is.read(bytesIn)) >= 0) {
+                fos.write(bytesIn, 0, i);
+            }
+
+			is.close();
+			fos.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}    
 }
